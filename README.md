@@ -1,1 +1,1 @@
-# Shop_React_Next
+# Shop - React in Next
