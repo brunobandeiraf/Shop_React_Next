@@ -4,7 +4,7 @@ import { styled } from "../styles"
 // 1ª param é a tag html
 // 2ª param é o objeto com estilização
 const Button = styled('button', {
-  backgroundColor: '$rocketseat',
+  backgroundColor: '$green300',
   borderRadius: 4, // não precisa das aspas e nem dimensão
   border: 0,
   padding: '4px 8px',
