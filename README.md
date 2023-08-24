@@ -9,4 +9,6 @@
 ## Runner
 - npm run dev
 
-
+## Styles
+- https://stitches.dev/docs/introduction
+-  npm install @stitches/react
