@@ -12,3 +12,6 @@
 ## Styles
 - https://stitches.dev/docs/introduction
 -  npm install @stitches/react
+
+## Carrossel
+- npm install keen-slider
