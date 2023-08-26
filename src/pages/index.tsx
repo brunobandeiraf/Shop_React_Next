@@ -1,16 +1,28 @@
 import React from "react";
 import Image from "next/image"
 import { HomeContainer, Product } from "../styles/pages/home"
+import { GetServerSideProps } from "next" 
 
 import { useKeenSlider } from 'keen-slider/react'
 
+import { stripe } from "../lib/stripe"
 import camiseta1 from '../assets/camisetas/1.png'
 import camiseta2 from '../assets/camisetas/2.png'
 import camiseta3 from '../assets/camisetas/3.png'
 
 import 'keen-slider/keen-slider.min.css'
 
-export default function Home(props: { list: any; }) {
+import Stripe from "stripe"
+
+interface HomeProps {
+  products: {
+    id: string
+    name: string
+    imageUrl: string
+    price: number
+  }[] // Array de produtos
+}
+export default function Home({ products }: HomeProps) {
 
   const [sliderRef] = useKeenSlider({
     slides: {
@@ -21,7 +33,22 @@ export default function Home(props: { list: any; }) {
 
   return (
     <HomeContainer ref={sliderRef} className="keen-slider">
-      <pre>{JSON.stringify(props.list)}</pre>
+        {
+          products.map(product => {
+            return (
+              <Product key={product.id} className="keen-slider__slide">
+                <Image src={product.imageUrl} width={520} height={480} alt="" />
+
+                <footer>
+                  <strong>{product.name}</strong>
+                  <span>{product.price}</span>
+                </footer>
+              </Product>
+          )
+        })
+      }
+
+      {/* <pre>{JSON.stringify(props.list)}</pre>
       <Product className="keen-slider__slide">
         <Image src={camiseta1} width={520} height={480} alt="" />
 
@@ -56,7 +83,7 @@ export default function Home(props: { list: any; }) {
           <strong>Camiseta X</strong>
           <span>R$ 79,90</span>
         </footer>
-      </Product>
+      </Product> */}
     </HomeContainer>
   )
 }
@@ -64,14 +91,28 @@ export default function Home(props: { list: any; }) {
 // getServerSideProps - só funciona dentro das Pages
 // Só devolve para o Front, quando tudo estiver carregado
 // Nunca terá estado de loading
-export const getServerSideProps = async () => {
-  await new Promise(resolve => setTimeout(resolve, 2000))
+// Não fica acessível para usuário final
+export const getServerSideProps: GetServerSideProps = async () => {
+  
+  // Lista todos os produtos do Stripe
+  const response = await stripe.products.list({
+    expand: ['data.default_price'] // pegando as propriedades do preço
+  });
 
-  console.log('rodou')
+  const products = response.data.map(product => {
+    const price = product.default_price as Stripe.Price;
+
+    return {
+      id: product.id,
+      name: product.name,
+      imageUrl: product.images[0],
+      price: price.unit_amount / 100, // retorna em centavos
+    }
+  })
 
   return {
     props: {
-      list: [1,2,3]
+      products
     }
   }
 }

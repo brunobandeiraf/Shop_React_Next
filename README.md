@@ -18,3 +18,4 @@
 
 ## List Products - Stripe
 - https://dashboard.stripe.com/t
+- npm i stripe
