@@ -15,3 +15,6 @@
 
 ## Carrossel
 - npm install keen-slider
+
+## List Products - Stripe
+- https://dashboard.stripe.com/t
