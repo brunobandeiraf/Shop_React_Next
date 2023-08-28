@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image"
 import { HomeContainer, Product } from "../styles/pages/home"
-import { GetServerSideProps } from "next" 
+import { GetStaticProps } from "next"
 
 import { useKeenSlider } from 'keen-slider/react'
 
@@ -89,7 +89,7 @@ export default function Home({ products }: HomeProps) {
 // Só devolve para o Front, quando tudo estiver carregado
 // Nunca terá estado de loading
 // Não fica acessível para usuário final
-export const getServerSideProps: GetServerSideProps = async () => {
+export const getStaticProps: GetStaticProps = async () => {
   
   // Lista todos os produtos do Stripe
   const response = await stripe.products.list({
@@ -110,6 +110,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   return {
     props: {
       products
-    }
+    },
+    revalidate: 60 * 60 * 2 // 2 hours,
   }
 }
