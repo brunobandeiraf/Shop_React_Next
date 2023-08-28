@@ -38,14 +38,18 @@ export default function Product({ product }: ProductProps) {
   )
 }
 
+// obrigatório em páginas com parâmetros na url
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [
       {
-        params: { id: 'prod_MLH5Wy0Y97hDAC' }
+        params: { id: 'prod_MLH5Wy0Y97hDAC' },
       }
     ],
-    fallback: false,
+    fallback: 'blocking',
+    // fallback false dá 404 para página sem carregamento anterior
+    // fallback true vai carregando e precisa ficar em página de loading
+    // fallback blocking não mostra nada até carregar tudo
   }
 }
 
