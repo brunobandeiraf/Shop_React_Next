@@ -17,7 +17,7 @@ interface HomeProps {
     id: string
     name: string
     imageUrl: string
-    price: number
+    price: string
   }[] // Array de produtos
 }
 export default function Home({ products }: HomeProps) {
