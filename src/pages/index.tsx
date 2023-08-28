@@ -2,6 +2,7 @@ import React from "react";
 import Image from "next/image"
 import { HomeContainer, Product } from "../styles/pages/home"
 import { GetStaticProps } from "next"
+import Link from "next/link"
 
 import { useKeenSlider } from 'keen-slider/react'
 
@@ -33,54 +34,21 @@ export default function Home({ products }: HomeProps) {
         {
           products.map(product => {
             return (
-              <Product key={product.id} className="keen-slider__slide">
-                <Image src={product.imageUrl} width={520} height={480} alt="" />
+              <Link href={`/product/${product.id}`} key={product.id}>
+                <Product
+                  className="keen-slider__slide"
+                >
+                  <Image src={product.imageUrl} width={520} height={480} alt="" />
 
-                <footer>
-                  <strong>{product.name}</strong>
-                  <span>{product.price}</span>
-                </footer>
+                  <footer>
+                    <strong>{product.name}</strong>
+                    <span>{product.price}</span>
+                  </footer>
               </Product>
+            </Link>
           )
         })
       }
-
-      {/* <pre>{JSON.stringify(props.list)}</pre>
-      <Product className="keen-slider__slide">
-        <Image src={camiseta1} width={520} height={480} alt="" />
-
-        <footer>
-          <strong>Camiseta X</strong>
-          <span>R$ 79,90</span>
-        </footer>
-      </Product>
-
-      <Product className="keen-slider__slide">
-        <Image src={camiseta2} width={520} height={480} alt="" />
-
-        <footer>
-          <strong>Camiseta X</strong>
-          <span>R$ 79,90</span>
-        </footer>
-      </Product>
-
-      <Product className="keen-slider__slide">
-        <Image src={camiseta3} width={520} height={480} alt="" />
-
-        <footer>
-          <strong>Camiseta X</strong>
-          <span>R$ 79,90</span>
-        </footer>
-      </Product>
-
-      <Product className="keen-slider__slide">
-        <Image src={camiseta3} width={520} height={480} alt="" />
-
-        <footer>
-          <strong>Camiseta X</strong>
-          <span>R$ 79,90</span>
-        </footer>
-      </Product> */}
     </HomeContainer>
   )
 }
