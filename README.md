@@ -19,3 +19,6 @@
 ## List Products - Stripe
 - https://dashboard.stripe.com/t
 - npm i stripe
+
+## Axios
+- npm i axios

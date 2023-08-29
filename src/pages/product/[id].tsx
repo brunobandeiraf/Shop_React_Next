@@ -33,9 +33,10 @@ export default function Product({ product }: ProductProps) {
 
       const { checkoutUrl } = response.data;
 
+      // redirecionar para uma rota externa
       window.location.href = checkoutUrl;
     } catch (err) {
-      setIsCreatingCheckoutSession(false);
+      setIsCreatingCheckoutSession(false); // mostrar loading
 
       alert('Falha ao redirecionar ao checkout!')
     }
