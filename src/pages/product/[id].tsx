@@ -1,13 +1,11 @@
 import axios from "axios";
-import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
 import { GetStaticPaths, GetStaticProps } from "next"
 import Image from "next/image";
+import Head from "next/head";
 import { useState } from "react";
 import Stripe from "stripe";
 import { stripe } from "../../lib/stripe";
-import Head from "next/head";
-
-import React from "react"
+import { ImageContainer, ProductContainer, ProductDetails } from "../../styles/pages/product"
 
 interface ProductProps {
   product: {
@@ -21,7 +19,6 @@ interface ProductProps {
 }
 
 export default function Product({ product }: ProductProps) {
-
   const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false);
 
   async function handleBuyButton() {
@@ -34,10 +31,9 @@ export default function Product({ product }: ProductProps) {
 
       const { checkoutUrl } = response.data;
 
-      // redirecionar para uma rota externa
       window.location.href = checkoutUrl;
     } catch (err) {
-      setIsCreatingCheckoutSession(false); // mostrar loading
+      setIsCreatingCheckoutSession(false);
 
       alert('Falha ao redirecionar ao checkout!')
     }
@@ -46,7 +42,7 @@ export default function Product({ product }: ProductProps) {
   return (
     <>
       <Head>
-        <title>{product.name} | Shop</title>
+        <title>{product.name} | Ignite Shop</title>
       </Head>
 
       <ProductContainer>
@@ -69,18 +65,12 @@ export default function Product({ product }: ProductProps) {
   )
 }
 
-// obrigatório em páginas com parâmetros na url
 export const getStaticPaths: GetStaticPaths = async () => {
   return {
     paths: [
-      {
-        params: { id: 'prod_MLH5Wy0Y97hDAC' },
-      }
+      { params: { id: 'prod_MLH5Wy0Y97hDAC' } },
     ],
     fallback: 'blocking',
-    // fallback false dá 404 para página sem carregamento anterior
-    // fallback true vai carregando e precisa ficar em página de loading
-    // fallback blocking não mostra nada até carregar tudo
   }
 }
 

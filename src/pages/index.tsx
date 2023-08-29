@@ -1,16 +1,14 @@
-import React from "react";
 import Image from "next/image"
-import { HomeContainer, Product } from "../styles/pages/home"
+import Head from 'next/head'
 import { GetStaticProps } from "next"
 import Link from "next/link"
-import Head from 'next/head'
 
 import { useKeenSlider } from 'keen-slider/react'
 
 import { stripe } from "../lib/stripe"
+import { HomeContainer, Product } from "../styles/pages/home"
 
 import 'keen-slider/keen-slider.min.css'
-
 import Stripe from "stripe"
 
 interface HomeProps {
@@ -19,21 +17,21 @@ interface HomeProps {
     name: string
     imageUrl: string
     price: string
-  }[] // Array de produtos
+  }[]
 }
-export default function Home({ products }: HomeProps) {
 
+export default function Home({ products }: HomeProps) {
   const [sliderRef] = useKeenSlider({
     slides: {
-      perView: 3, // 3 produtos por página
-      spacing: 48 // espaçamento
+      perView: 3,
+      spacing: 48
     }
   });
 
   return (
     <>
       <Head>
-        <title>Home | Shop</title>
+        <title>Home | Ignite Shop</title>
       </Head>
 
       <HomeContainer ref={sliderRef} className="keen-slider">
@@ -53,23 +51,17 @@ export default function Home({ products }: HomeProps) {
         })}
       </HomeContainer>
     </>
-                 
   )
 }
 
-// getServerSideProps - só funciona dentro das Pages
-// Só devolve para o Front, quando tudo estiver carregado
-// Nunca terá estado de loading
-// Não fica acessível para usuário final
 export const getStaticProps: GetStaticProps = async () => {
-  
-  // Lista todos os produtos do Stripe
   const response = await stripe.products.list({
-    expand: ['data.default_price'] // pegando as propriedades do preço
+    expand: ['data.default_price']
   });
 
+
   const products = response.data.map(product => {
-    //const price = product.default_price as Stripe.Price;
+    const price = product.default_price as Stripe.Price;
 
     return {
       id: product.id,
